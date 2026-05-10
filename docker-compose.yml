@@ -1,0 +1,46 @@
+# ============================================
+# Docker Compose - 小智笔记全栈部署
+# ============================================
+# 使用说明:
+# 1. 确保 .env 文件存在且配置正确
+# 2. 执行: docker-compose up -d
+# 3. 前端访问: http://localhost
+# 4. 后端 API: http://localhost/api
+# ============================================
+
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: xiaozhi-backend
+    restart: unless-stopped
+    ports:
+      - "6789:6789"
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/.env:/app/.env:ro
+    environment:
+      - HOST=0.0.0.0
+      - PORT=6789
+    networks:
+      - xiaozhi-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: xiaozhi-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - xiaozhi-network
+
+networks:
+  xiaozhi-network:
+    driver: bridge

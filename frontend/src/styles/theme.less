@@ -1,0 +1,342 @@
+// 主题变量
+:root {
+  // 亮色主题
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #fafafa;
+  --text-primary: #262626;
+  --text-secondary: #595959;
+  --text-tertiary: #8c8c8c;
+  --border-color: #d9d9d9;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+  --sidebar-bg: #ffffff;
+}
+
+.dark-theme {
+  // 暗色主题
+  --bg-primary: #141414;
+  --bg-secondary: #1f1f1f;
+  --bg-tertiary: #2b2b2b;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-tertiary: #737373;
+  --border-color: #434343;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-bg: #1f1f1f;
+  --header-bg: #1f1f1f;
+  --sidebar-bg: #141414;
+}
+
+// 暗色模式下的 Ant Design 组件覆盖
+.dark-theme {
+  // 表单标签
+  .ant-form-item-label > label {
+    color: var(--text-primary);
+  }
+  
+  // 卡片
+  .ant-card {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    
+    .ant-card-head {
+      background: var(--card-bg);
+      border-bottom-color: var(--border-color);
+      color: var(--text-primary);
+    }
+    
+    .ant-card-body {
+      background: var(--card-bg);
+      color: var(--text-primary);
+    }
+  }
+  
+  // 输入框
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-input-textarea,
+  .ant-input-number,
+  .ant-input-number-input {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+    
+    &::placeholder {
+      color: var(--text-tertiary) !important;
+    }
+    
+    &:-ms-input-placeholder {
+      color: var(--text-tertiary) !important;
+    }
+    
+    &::-ms-input-placeholder {
+      color: var(--text-tertiary) !important;
+    }
+  }
+  
+  // 数字输入框上下按钮
+  .ant-input-number-handler-wrap {
+    background: var(--bg-primary);
+    border-left-color: var(--border-color);
+    
+    .ant-input-number-handler {
+      border-bottom-color: var(--border-color);
+      
+      &:hover {
+        background: var(--hover-bg);
+      }
+      
+      .ant-input-number-handler-up-inner,
+      .ant-input-number-handler-down-inner {
+        color: var(--text-secondary);
+      }
+    }
+  }
+  
+  // 文本域
+  textarea.ant-input {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  
+  // 搜索框
+  .ant-input-search {
+    .ant-input-group-addon {
+      background: var(--bg-primary);
+      
+      .ant-input-search-button {
+        background: var(--ant-primary-color);
+        border-color: var(--ant-primary-color);
+        color: #fff;
+        
+        &:hover {
+          background: var(--ant-primary-color-hover);
+          border-color: var(--ant-primary-color-hover);
+          color: #fff;
+        }
+        
+        .anticon {
+          color: #fff;
+        }
+      }
+    }
+  }
+  
+  // 选择器
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+  
+  // 菜单
+  .ant-menu {
+    background: var(--sidebar-bg);
+    color: var(--text-secondary);
+    
+    .ant-menu-item {
+      color: var(--text-secondary);
+      
+      &:hover {
+        color: var(--text-primary);
+      }
+      
+      &.ant-menu-item-selected {
+        color: var(--ant-primary-color);
+        background: rgba(24, 144, 255, 0.15);
+      }
+    }
+  }
+  
+  // 下拉菜单（覆盖所有下拉菜单文字）
+  .ant-dropdown-menu {
+    background: var(--card-bg) !important;
+    
+    .ant-dropdown-menu-item,
+    .ant-dropdown-menu-submenu-title {
+      color: var(--text-primary) !important;
+      
+      &:hover {
+        background: var(--bg-tertiary) !important;
+      }
+      
+      .ant-dropdown-menu-title-content {
+        color: var(--text-primary) !important;
+      }
+      
+      span:not(.color-dot) {
+        color: var(--text-primary) !important;
+      }
+    }
+  }
+  
+  // 布局
+  .ant-layout {
+    background: var(--bg-primary);
+  }
+  
+  .ant-layout-header {
+    background: var(--header-bg);
+    color: var(--text-primary);
+  }
+  
+  .ant-layout-sider {
+    background: var(--sidebar-bg);
+  }
+  
+  // 表格
+  .ant-table {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    
+    .ant-table-thead > tr > th {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border-bottom-color: var(--border-color);
+    }
+    
+    .ant-table-tbody > tr > td {
+      border-bottom-color: var(--border-color);
+      color: var(--text-secondary);
+    }
+    
+    .ant-table-tbody > tr:hover > td {
+      background: var(--bg-tertiary);
+    }
+  }
+  
+  // 分页
+  .ant-pagination-item {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    
+    a {
+      color: var(--text-primary);
+    }
+    
+    &.ant-pagination-item-active {
+      border-color: var(--ant-primary-color);
+      
+      a {
+        color: var(--ant-primary-color);
+      }
+    }
+  }
+  
+  // 弹窗
+  .ant-modal-content,
+  .ant-modal-header {
+    background: var(--card-bg);
+    color: var(--text-primary);
+  }
+  
+  .ant-modal-title {
+    color: var(--text-primary);
+  }
+  
+  // Tab
+  .ant-tabs-tab {
+    color: var(--text-secondary);
+    
+    &.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: var(--ant-primary-color);
+    }
+  }
+  
+  // 按钮
+  .ant-btn-default {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+  
+  .ant-btn-text {
+    color: var(--text-secondary);
+    
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+    
+    .anticon {
+      color: var(--text-secondary);
+    }
+  }
+  
+  .ant-btn-primary {
+    .anticon {
+      color: #fff;
+    }
+  }
+  
+  // 文字排版
+  .ant-typography {
+    color: var(--text-primary);
+  }
+  
+  // 分割线
+  .ant-divider {
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+  }
+  
+  // 空状态
+  .ant-empty-description {
+    color: var(--text-secondary);
+  }
+  
+  // 面包屑
+  .ant-breadcrumb {
+    color: var(--text-secondary);
+    
+    a {
+      color: var(--text-secondary);
+    }
+    
+    .ant-breadcrumb-separator {
+      color: var(--text-tertiary);
+    }
+  }
+  
+  // 消息提示
+  .ant-message-notice-content {
+    background: var(--card-bg);
+    color: var(--text-primary);
+  }
+  
+  // 确认框
+  .ant-popover-inner {
+    background: var(--card-bg);
+  }
+  
+  .ant-popover-title,
+  .ant-popover-inner-content {
+    color: var(--text-primary);
+  }
+  
+  // 树形控件
+  .ant-tree {
+    background: transparent;
+    color: var(--text-primary);
+  }
+  
+  // 开关
+  .ant-switch {
+    background: var(--bg-tertiary);
+    
+    &.ant-switch-checked {
+      background: var(--ant-primary-color);
+    }
+    
+    .ant-switch-handle::before {
+      background: var(--text-primary);
+    }
+  }
+}
+
+// 过渡动画
+body, .card, .ant-card, .ant-layout-header, .ant-layout-sider, .ant-menu {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
