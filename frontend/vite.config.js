@@ -15,11 +15,11 @@ export default defineConfig({
     allowedHosts: ['4a0e9dbf.r16.cpolar.top', '.cpolar.top', 'dd4e0a.r11.vip.cpolar.cn', '.cpolar.cn', 'localhost', '127.0.0.1'],
     proxy: {
       '/api': {
-        target: 'http://localhost:6789',
+        target: 'http://xiaozhi-backend:6789',
         changeOrigin: true
       },
       '/uploads': {
-        target: 'http://localhost:6789',
+        target: 'http://xiaozhi-backend:6789',
         changeOrigin: true
       }
     }

@@ -160,7 +160,7 @@
             @click="goToArticle(article.slug)"
           >
             <template #cover v-if="article.cover_image">
-              <img :src="article.cover_image" :alt="article.title" />
+              <img :src="getImageUrl(article.cover_image)" :alt="article.title" />
             </template>
             <div class="article-category" v-if="article.category">
               {{ article.category.name }}
@@ -238,6 +238,7 @@ import {
 import { useUserStore } from '@/stores/user'
 import { getArticles } from '@/api/article'
 import { getStats } from '@/api/dashboard'
+import { getImageUrl } from '@/utils/image'
 
 const githubRepo = computed(() => import.meta.env.VITE_GITHUB_URL || '')
 const giteeRepo = computed(() => import.meta.env.VITE_GITEE_URL || '')

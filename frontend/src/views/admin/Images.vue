@@ -33,7 +33,7 @@
     >
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'preview'">
-          <img :src="record.url" class="image-preview" @click="previewImage(record.url)" />
+          <img :src="getImageUrl(record.url)" class="image-preview" @click="previewImage(getImageUrl(record.url))" />
         </template>
         <template v-if="column.key === 'file_size'">
           {{ record.file_size }} KB
@@ -85,6 +85,7 @@ import {
   UploadOutlined
 } from '@ant-design/icons-vue'
 import { getUploadedImages, deleteUpload } from '@/api/upload'
+import { getImageUrl } from '@/utils/image'
 import { formatDateTime } from '@/utils/date'
 
 const loading = ref(false)

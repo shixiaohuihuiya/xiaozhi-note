@@ -50,7 +50,7 @@
 
       <div class="article-main">
         <div class="article-cover-image" v-if="article.cover_image">
-          <img :src="article.cover_image" :alt="article.title" />
+          <img :src="getImageUrl(article.cover_image)" :alt="article.title" />
         </div>
         <div class="article-header">
           <h1 class="article-title">{{ article.title }}</h1>
@@ -168,6 +168,7 @@ import { useUserStore } from '@/stores/user'
 import { useSiteConfigStore } from '@/stores/siteConfig'
 import CommentItem from '@/components/CommentItem.vue'
 import { formatDate } from '@/utils/date'
+import { getImageUrl } from '@/utils/image'
 import dayjs from 'dayjs'
 
 const route = useRoute()

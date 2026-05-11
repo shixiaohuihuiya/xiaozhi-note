@@ -19,10 +19,14 @@ class Settings(BaseSettings):
     PORT: int = 6789
     
     # 数据库配置 - MySQL
-    DATABASE_URL: str = "mysql+aiomysql://root:password@localhost:3306/xiaozhi_notes?charset=utf8mb4"
+    # Development: mysql+aiomysql://root:password@localhost:3306/xiaozhi_notes?charset=utf8mb4
+    # Docker: mysql+aiomysql://root:password@mysql:3306/xiaozhi_notes?charset=utf8mb4
+    DATABASE_URL: str = "mysql+aiomysql://root:password@mysql:3306/xiaozhi_notes?charset=utf8mb4"
     
     # Redis配置
-    REDIS_URL: str = "redis://localhost:6379/0"
+    # Development: redis://localhost:6379/0
+    # Docker: redis://xiaozhi-redis:6379/0
+    REDIS_URL: str = "redis://xiaozhi-redis:6379/0"
     
     # JWT配置
     JWT_SECRET_KEY: str = "your-secret-key-change-this-in-production"

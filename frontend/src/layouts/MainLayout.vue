@@ -365,8 +365,8 @@
       <router-view />
     </a-layout-content>
 
-    <!-- Footer -->
-    <a-layout-footer class="footer">
+    <!-- Footer (hidden on Guestbook page to prevent scrolling issues) -->
+    <a-layout-footer class="footer" v-if="route.name !== 'Guestbook'">
       <div class="footer-main">
         <!-- Left: Brand Info -->
         <div class="footer-brand">
@@ -384,6 +384,7 @@
             <span>{{ siteConfig.title }}</span>
           </div>
           <p class="footer-description">{{ siteConfig.footer || '一个简洁、美观的笔记管理平台' }}</p>
+          <p class="footer-uptime">© {{ siteConfig.title }} · 已稳定运行 {{ uptimeDays }}天{{ uptimeHours }}时{{ uptimeMinutes }}分{{ uptimeSeconds }}秒</p>
         </div>
 
         <!-- Center: Links -->
@@ -400,6 +401,12 @@
             <a @click="$router.push('/guestbook')">留言墙</a>
             <a @click="$router.push('/about')">关于</a>
             <a v-if="userStore.isLoggedIn" @click="$router.push('/editor')">写笔记</a>
+          </div>
+          <div class="footer-column">
+            <h4>商业合作</h4>
+            <a href="mailto:business@example.com">商务合作</a>
+            <a href="mailto:advertise@example.com">广告投放</a>
+            <a @click="$router.push('/about')">关于我们</a>
           </div>
         </div>
 
@@ -473,7 +480,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -518,6 +525,47 @@ const handleLogoError = () => {
     logoSrc.value = '/logo.svg'
   } else {
     logoLoaded.value = false
+  }
+}
+
+// Website uptime counter
+// 设置网站上线时间（请根据实际情况修改）
+const SITE_LAUNCH_DATE = new Date('2024-01-01T00:00:00')
+
+const uptimeDays = ref(0)
+const uptimeHours = ref(0)
+const uptimeMinutes = ref(0)
+const uptimeSeconds = ref(0)
+
+let uptimeTimer = null
+
+// 更新运行时间
+const updateUptime = () => {
+  const now = new Date()
+  const diff = now.getTime() - SITE_LAUNCH_DATE.getTime()
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+  
+  uptimeDays.value = days
+  uptimeHours.value = hours
+  uptimeMinutes.value = minutes
+  uptimeSeconds.value = seconds
+}
+
+// 启动定时器
+const startUptimeTimer = () => {
+  updateUptime() // 立即更新一次
+  uptimeTimer = setInterval(updateUptime, 1000) // 每秒更新
+}
+
+// 停止定时器
+const stopUptimeTimer = () => {
+  if (uptimeTimer) {
+    clearInterval(uptimeTimer)
+    uptimeTimer = null
   }
 }
 
@@ -642,6 +690,17 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
     unreadCount.value = 0
     notifications.value = []
   }
+})
+
+// Start uptime timer on component mount
+onMounted(() => {
+  startUptimeTimer()
+})
+
+// Clean up timer on component unmount
+onUnmounted(() => {
+  stopUptimeTimer()
+  stopUnreadTimer()
 })
 </script>
 
@@ -856,6 +915,18 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
         margin: 0;
         max-width: 320px;
       }
+      
+      .footer-uptime {
+        margin-top: 8px;
+        font-size: 12px;
+        color: var(--text-tertiary);
+        
+        .uptime-value {
+          color: var(--ant-primary-color);
+          font-weight: 500;
+          font-family: 'Courier New', monospace;
+        }
+      }
     }
     
     .footer-links {
@@ -1009,6 +1080,16 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
     
     .divider {
       color: var(--text-tertiary);
+    }
+    
+    .site-uptime {
+      color: var(--ant-primary-color);
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
+      
+      @media (max-width: 768px) {
+        font-size: 12px;
+      }
     }
   }
 }

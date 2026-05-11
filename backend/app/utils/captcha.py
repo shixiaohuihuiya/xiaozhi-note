@@ -38,12 +38,17 @@ def generate_captcha(width: int = 120, height: int = 44) -> tuple[str, str]:
 
     # 尝试加载字体
     try:
-        font = ImageFont.truetype("arial.ttf", 24)
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
     except Exception:
         try:
-            font = ImageFont.load_default()
+            font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", 28)
         except Exception:
-            font = None
+            try:
+                # Pillow 10+ 支持带 size 参数的 load_default
+                font = ImageFont.load_default(size=28)
+            except Exception:
+                # 旧版本 Pillow 的默认字体较小
+                font = ImageFont.load_default()
 
     # 绘制文字
     for i, char in enumerate(code):

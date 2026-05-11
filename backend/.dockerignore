@@ -17,11 +17,8 @@ env/
 .env.*
 !.env.example
 
-# 上传文件（通过 volume 挂载）
+# 上传文件（通过 volume 挂载，不打包进镜像）
 uploads/
-
-# 模板文件（不需要打入镜像）
-templates/
 
 # Git
 .git/

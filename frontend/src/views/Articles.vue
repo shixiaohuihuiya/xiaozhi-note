@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="article-cover" v-if="article.cover_image">
-            <img :src="article.cover_image" :alt="article.title" />
+            <img :src="getImageUrl(article.cover_image)" :alt="article.title" />
           </div>
         </div>
       </a-card>
@@ -65,6 +65,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, FolderOutlined, EyeOutlined, LikeOutlined, CommentOutlined, TagOutlined } from '@ant-design/icons-vue'
 import { getArticles } from '@/api/article'
+import { getImageUrl } from '@/utils/image'
 
 const route = useRoute()
 const router = useRouter()

@@ -15,7 +15,7 @@
     <a-table :columns="columns" :data-source="articles" :loading="loading">
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'cover_image'">
-          <img v-if="record.cover_image" :src="record.cover_image" class="cover-thumb" />
+          <img v-if="record.cover_image" :src="getImageUrl(record.cover_image)" class="cover-thumb" />
           <span v-else>-</span>
         </template>
         <template v-if="column.key === 'status'">
@@ -66,6 +66,7 @@ import { message } from 'ant-design-vue'
 import { DownOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { getMyArticles, deleteArticle as deleteArticleApi, updateArticle, exportArticleMd } from '@/api/article'
 import { formatDate } from '@/utils/date'
+import { getImageUrl } from '@/utils/image'
 
 const router = useRouter()
 const loading = ref(false)

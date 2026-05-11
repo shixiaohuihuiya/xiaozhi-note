@@ -5,12 +5,15 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# 配置npm使用阿里云镜像
+RUN npm config set registry https://registry.npmmirror.com
+
 # 先复制依赖文件，利用缓存层
 COPY package.json pnpm-lock.yaml ./
 
-# 安装 pnpm 并安装依赖
-RUN npm install -g pnpm && \
-    pnpm install --frozen-lockfile
+# 安装 pnpm 并安装依赖（使用国内镜像）
+RUN npm install -g pnpm --registry=https://registry.npmmirror.com && \
+    pnpm install --frozen-lockfile --registry=https://registry.npmmirror.com
 
 # 复制源代码
 COPY . .

@@ -1,20 +1,23 @@
 # ============================================
-# Docker Compose - 小智笔记全栈部署
+# Docker Compose - 小智笔记快速启动（使用已导入的镜像）
 # ============================================
 # 使用说明:
-# 1. 确保 .env 文件存在且配置正确
-# 2. 执行: docker-compose up -d
-# 3. 前端访问: http://localhost
-# 4. 后端 API: http://localhost/api
+# 1. 确保已导入所有镜像:
+#    - xiaozhi-backend-latest.tar (后端)
+#    - xiaozhi-frontend.tar (前端)
+#    - xiaozhi-mysql.tar (MySQL)
+#    - xiaozhi-redis.tar (Redis)
+# 2. 确保 .env 文件存在且配置正确
+# 3. 执行: docker-compose -f docker-compose.quick.yml up -d
+# 4. 前端访问: http://localhost
+# 5. 后端 API: http://localhost:6789
 # ============================================
 
 version: "3.8"
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: xiaozhi-note-backend:latest  # 使用已导入的镜像，不构建
     container_name: xiaozhi-backend
     restart: unless-stopped
     ports:
@@ -36,9 +39,7 @@ services:
       - xiaozhi-network
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: xiaozhi-note-frontend:latest  # 使用已导入的镜像，不构建
     container_name: xiaozhi-frontend
     restart: unless-stopped
     ports:

@@ -1,19 +1,11 @@
 """
 小智笔记 - FastAPI主应用入口
 """
-import os
-import sys
-from pathlib import Path
-
-# 添加项目根目录到Python路径
-current_file = Path(__file__).resolve()
-project_root = current_file.parent.parent
-sys.path.insert(0, str(project_root))
-
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import os
 from config import settings
 from database import init_db
 from routers import auth, user, article, category, tag, comment, admin, ai, guestbook, site_config, upload, notification

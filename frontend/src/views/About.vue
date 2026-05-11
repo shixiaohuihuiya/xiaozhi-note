@@ -128,8 +128,22 @@
 import { computed } from 'vue'
 import { GithubOutlined, GitlabOutlined } from '@ant-design/icons-vue'
 
-const githubRepo = computed(() => import.meta.env.VITE_GITHUB_URL || '')
-const giteeRepo = computed(() => import.meta.env.VITE_GITEE_URL || '')
+// 从仓库链接提取个人主页链接
+const githubRepo = computed(() => {
+  const url = import.meta.env.VITE_GITHUB_URL || ''
+  if (!url) return ''
+  // 提取 https://github.com/username 部分
+  const match = url.match(/^(https?:\/\/github\.com\/[\w-]+)/)
+  return match ? match[1] : ''
+})
+
+const giteeRepo = computed(() => {
+  const url = import.meta.env.VITE_GITEE_URL || ''
+  if (!url) return ''
+  // 提取 https://gitee.com/username 部分
+  const match = url.match(/^(https?:\/\/gitee\.com\/[\w-]+)/)
+  return match ? match[1] : ''
+})
 </script>
 
 <style scoped lang="less">

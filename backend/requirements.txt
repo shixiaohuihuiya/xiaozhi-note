@@ -14,7 +14,6 @@ redis==5.0.1
 # Authentication
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
-python-jose==3.3.0
 
 # Validation and Serialization
 pydantic==2.5.3
@@ -28,10 +27,8 @@ openai==1.10.0
 python-dotenv==1.0.0
 httpx==0.26.0
 aiofiles==23.2.1
-Pillow==10.2.0
+Pillow==12.2.0
 openpyxl==3.1.2
 
 # Optional - for production
 gunicorn==21.2.0
-
-pillow==12.2.0

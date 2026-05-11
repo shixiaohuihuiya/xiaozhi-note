@@ -1,7 +1,6 @@
 """
 留言墙路由
 """
-from datetime import datetime, timedelta
 from typing import Optional
 from pydantic import BaseModel, Field
 from fastapi import APIRouter, Depends, HTTPException, status, Request
@@ -12,6 +11,7 @@ from database import get_db
 from models import Guestbook, User
 from schemas.common import ResponseModel, PaginatedResponse, PaginationParams
 from dependencies import get_optional_user
+from utils.redis import check_ip_rate_limit
 
 router = APIRouter()
 
@@ -152,18 +152,14 @@ async def create_guestbook(
 
     client_ip = _get_client_ip(request)
 
-    # 匿名（未登录）用户限流：同一IP 24 小时内最多 15 条
+    # 匿名（未登录）用户限流：使用 Redis 记录，同一IP 24小时内最多15条
     if not current_user and client_ip:
-        since = datetime.utcnow() - timedelta(days=1)
-        count_result = await db.execute(
-            select(func.count(Guestbook.id)).where(
-                Guestbook.ip_address == client_ip,
-                Guestbook.user_id.is_(None),
-                Guestbook.created_at >= since
-            )
+        is_allowed, current_count = await check_ip_rate_limit(
+            ip_address=client_ip,
+            limit=ANONYMOUS_DAILY_LIMIT,
+            ttl_seconds=86400  # 24小时
         )
-        recent_count = count_result.scalar() or 0
-        if recent_count >= ANONYMOUS_DAILY_LIMIT:
+        if not is_allowed:
             raise HTTPException(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                 detail=f"您今日留言已达上限（{ANONYMOUS_DAILY_LIMIT} 条），请登录后再发或明日再来"

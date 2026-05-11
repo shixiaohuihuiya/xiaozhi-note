@@ -2,9 +2,21 @@ import axios from 'axios'
 import { message } from 'ant-design-vue'
 import { useUserStore } from '@/stores/user'
 
+// Get API base URL from environment variable
+// In Docker, this will be empty and nginx will handle proxying
+// In development, you can set VITE_API_BASE_URL=http://localhost:6789/api/v1
+const getBaseURL = () => {
+  const envBaseURL = import.meta.env.VITE_API_BASE_URL
+  if (envBaseURL) {
+    return envBaseURL.endsWith('/api/v1') ? envBaseURL : `${envBaseURL}/api/v1`
+  }
+  // Default: use relative path (nginx proxy in production)
+  return '/api/v1'
+}
+
 // 创建axios实例
 const request = axios.create({
-  baseURL: '/api/v1',
+  baseURL: getBaseURL(),
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
@@ -13,7 +25,7 @@ const request = axios.create({
 
 // AI专用实例（超时时间较长）
 const aiRequest = axios.create({
-  baseURL: '/api/v1',
+  baseURL: getBaseURL(),
   timeout: 180000,
   headers: {
     'Content-Type': 'application/json'

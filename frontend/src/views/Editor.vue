@@ -250,7 +250,7 @@
             </a-button>
           </a-upload>
           <div v-if="imageModalUrl" class="image-preview-wrap">
-            <img :src="imageModalUrl" class="image-preview" />
+            <img :src="getImageUrl(imageModalUrl)" class="image-preview" />
           </div>
         </a-form-item>
         <a-form-item label="图片对齐方式">
@@ -285,6 +285,7 @@ import { getTags } from '@/api/tag'
 import { uploadImage } from '@/api/upload'
 import { aiAssist as apiAiAssist, aiChat } from '@/api/ai'
 import { useUserStore } from '@/stores/user'
+import { getImageUrl } from '@/utils/image'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark.css'
