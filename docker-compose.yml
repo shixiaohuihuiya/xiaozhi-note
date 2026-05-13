@@ -25,7 +25,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=6789
-      - REDIS_URL=redis://xiaozhi-redis:6379/0
+      - REDIS_URL=redis://:xiaozhi_redis_secure_password_2026@xiaozhi-redis:6379/0
       - DATABASE_URL=mysql+aiomysql://xiaozhi:password@xiaozhi-mysql:3306/xiaozhi_notes?charset=utf8mb4
     depends_on:
       mysql:
@@ -52,11 +52,12 @@ services:
     image: redis:7-alpine
     container_name: xiaozhi-redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    # Remove public port exposure - only accessible within Docker network
+    # ports:
+    #   - "6379:6379"
     volumes:
       - redis-data:/data
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass xiaozhi_redis_secure_password_2026
     networks:
       - xiaozhi-network
 

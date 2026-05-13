@@ -1,14 +1,11 @@
 # ============================================
 # Docker Compose - 小智笔记快速启动（使用已导入的镜像）
+# Ubuntu Linux 专用版本
 # ============================================
 # 使用说明:
-# 1. 确保已导入所有镜像:
-#    - xiaozhi-backend-latest.tar (后端)
-#    - xiaozhi-frontend.tar (前端)
-#    - xiaozhi-mysql.tar (MySQL)
-#    - xiaozhi-redis.tar (Redis)
+# 1. 确保已导入镜像: docker load -i xiaozhi-note-all-images.tar
 # 2. 确保 .env 文件存在且配置正确
-# 3. 执行: docker-compose -f docker-compose.quick.yml up -d
+# 3. 执行: docker-compose -p xiaozhi-note -f docker-compose.quick.yml up -d
 # 4. 前端访问: http://localhost
 # 5. 后端 API: http://localhost:6789
 # ============================================
@@ -28,7 +25,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=6789
-      - REDIS_URL=redis://xiaozhi-redis:6379/0
+      - REDIS_URL=redis://:xiaozhi_redis_secure_password_2026@xiaozhi-redis:6379/0
       - DATABASE_URL=mysql+aiomysql://xiaozhi:password@xiaozhi-mysql:3306/xiaozhi_notes?charset=utf8mb4
     depends_on:
       mysql:
@@ -53,11 +50,12 @@ services:
     image: redis:7-alpine
     container_name: xiaozhi-redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    # Remove public port exposure - only accessible within Docker network
+    # ports:
+    #   - "6379:6379"
     volumes:
       - redis-data:/data
-    command: redis-server --appendonly yes
+    command: redis-server --appendonly yes --requirepass xiaozhi_redis_secure_password_2026
     networks:
       - xiaozhi-network
 
@@ -80,7 +78,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-time-zone=+08:00
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
       interval: 10s
       timeout: 5s
       retries: 5

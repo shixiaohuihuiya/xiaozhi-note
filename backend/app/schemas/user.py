@@ -42,9 +42,14 @@ class UserPasswordUpdate(BaseModel):
     new_password: str = Field(..., min_length=6, max_length=32, description="新密码")
 
 
-class UserResponse(UserBase):
+class UserResponse(BaseModel):
     """用户响应Schema"""
     id: int = Field(..., description="用户ID")
+    username: str = Field(..., description="用户名")
+    email: str = Field(..., description="邮箱")  # Use str instead of EmailStr to allow .local domains
+    nickname: Optional[str] = Field(None, max_length=50, description="昵称")
+    avatar: Optional[str] = Field(None, max_length=500, description="头像URL")
+    bio: Optional[str] = Field(None, description="个人简介")
     role: int = Field(..., description="角色: 0-普通用户, 1-管理员, 2-超级管理员")
     status: int = Field(..., description="状态: 0-禁用, 1-正常")
     is_verified: bool = Field(..., description="邮箱是否验证")

@@ -147,7 +147,7 @@ async def login(
             "refresh_token": refresh_token,
             "token_type": "Bearer",
             "expires_in": 86400,  # 24小时
-            "must_change_password": user.must_change_password,
+            "must_change_password": user.must_change_password or False,  # Ensure boolean value
             "user": UserResponse.model_validate(user)
         }
     )

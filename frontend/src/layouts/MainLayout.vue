@@ -404,8 +404,8 @@
           </div>
           <div class="footer-column">
             <h4>商业合作</h4>
-            <a href="mailto:business@example.com">商务合作</a>
-            <a href="mailto:advertise@example.com">广告投放</a>
+            <a href="https://my.feishu.cn/wiki/Kl7awiIPeidDLrkp6drcKAJqnFd" target="_blank" rel="noopener noreferrer">商务合作</a>
+            <a href="https://my.feishu.cn/wiki/Kl7awiIPeidDLrkp6drcKAJqnFd" target="_blank" rel="noopener noreferrer">广告投放</a>
             <a @click="$router.push('/about')">关于我们</a>
           </div>
         </div>

@@ -148,7 +148,7 @@ async def _seed_superadmin():
 
     superadmin_defaults = {
         "username": "superadmin",
-        "email": "superadmin@xiaozhi.local",
+        "email": "superadmin@example.com",  # Use valid email format for Pydantic validation
         "nickname": "超级管理员",
         "password": "admin123456",
     }
@@ -158,7 +158,19 @@ async def _seed_superadmin():
             # 检查是否已存在超级管理员
             result = await db.execute(select(User).where(User.role == 2))
             existing = result.scalar_one_or_none()
+            
             if existing:
+                # Fix existing superadmin: ensure must_change_password is not None
+                if existing.must_change_password is None:
+                    existing.must_change_password = False
+                    await db.commit()
+                    print("✅ 已修复现有超级管理员的 must_change_password 字段")
+                
+                # Fix invalid email format (e.g., @xiaozhi.local)
+                if existing.email and '.local' in existing.email:
+                    existing.email = 'superadmin@example.com'
+                    await db.commit()
+                    print("✅ 已修复现有超级管理员的邮箱格式")
                 return
 
             superadmin = User(
@@ -168,7 +180,8 @@ async def _seed_superadmin():
                 password_hash=get_password_hash(superadmin_defaults["password"]),
                 role=2,
                 status=1,
-                is_verified=True
+                is_verified=True,
+                must_change_password=False  # Explicitly set to False to avoid None value
             )
             db.add(superadmin)
             await db.commit()
