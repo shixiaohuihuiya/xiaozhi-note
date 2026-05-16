@@ -2,6 +2,14 @@
 
 一个简洁、美观的现代化笔记管理平台，支持Markdown编辑、AI辅助写作、多用户管理等功能。
 
+## 🌐 在线预览
+
+- **在线演示**: http://www.hhbloapp.top （待更新）
+- **Gitee 仓库**: https://gitee.com/your-username/xiaozhi-note
+- **GitHub 仓库**: https://github.com/shixiaohuihuiya/xiaozhi-note
+
+> 💡 **提示**: 请将 `https://your-domain.com` 替换为你实际的部署地址
+
 ---
 
 ## ✨ 功能特性
@@ -101,7 +109,6 @@
 git clone https://github.com/xhh_code/xiaozhi-note.git
 **github**
 git clone https://github.com/shixiaohuihuiya/xiaozhi-note.git
-
 cd xiaozhi-note
 ```
 
@@ -377,12 +384,8 @@ uvicorn app.main:app --reload --port 6789
 如有问题，欢迎通过以下方式联系：
 
 - 提交 Issue
-<<<<<<< HEAD
-- 发送邮件至: support@example.com
-=======
-- 发送邮件至: 2295465016@qq.com
->>>>>>> master
 
+- 发送邮件至: 2295465016@qq.com
 ---
 
 ## 🙏 致谢
