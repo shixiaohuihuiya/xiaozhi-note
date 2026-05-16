@@ -96,7 +96,10 @@
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/xiaozhi-note.git
+**gitee**
+git clone https://github.com/xhh_code/xiaozhi-note.git
+**github**
+git clone https://github.com/shixiaohuihuiya/xiaozhi-note.git
 cd xiaozhi-note
 ```
 
