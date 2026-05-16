@@ -92,16 +92,6 @@
         <a-divider />
 
         <div class="article-actions">
-          <!-- 编辑按钮 - 仅管理员或作者可见 -->
-          <a-button 
-            v-if="userStore.isLoggedIn && (userStore.isAdmin || article.author?.id === userStore.userInfo?.id)"
-            type="primary" 
-            shape="circle" 
-            size="large" 
-            @click="handleEdit"
-          >
-            <EditOutlined />
-          </a-button>
           <a-button
             :type="article.is_liked ? 'primary' : 'default'"
             shape="circle"
@@ -167,7 +157,7 @@
 import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { EyeOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, EditOutlined } from '@ant-design/icons-vue'
+import { EyeOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined } from '@ant-design/icons-vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark.css'
@@ -409,12 +399,6 @@ const handleShare = () => {
     message.error('复制失败')
   })
 }
-
-const handleEdit = () => {
-  // 跳转到编辑器页面
-  router.push(`/editor/${article.value.id}`)
-}
-
 const handleReplyClick = (comment) => {
   if (!userStore.isLoggedIn) {
     message.info('请先登录')
