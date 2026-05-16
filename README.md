@@ -4,11 +4,10 @@
 
 ## 🌐 在线预览
 
-- **在线演示**: http://www.hhbloapp.top （待更新）
-- **Gitee 仓库**: https://gitee.com/your-username/xiaozhi-note
+- **在线演示**: http://www.hhbloapp.top 
+- **Gitee 仓库**: https://gitee.com/xhh_code/xiaozhi-note
 - **GitHub 仓库**: https://github.com/shixiaohuihuiya/xiaozhi-note
 
-> 💡 **提示**: 请将 `https://your-domain.com` 替换为你实际的部署地址
 
 ---
 
