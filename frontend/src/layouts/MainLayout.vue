@@ -530,7 +530,8 @@ const handleLogoError = () => {
 
 // Website uptime counter
 // 设置网站上线时间（请根据实际情况修改）
-const SITE_LAUNCH_DATE = new Date('2024-01-01T00:00:00')
+// 当前设置为 2026-05-01，请根据实际部署时间调整
+const SITE_LAUNCH_DATE = new Date('2026-05-01T00:00:00')
 
 const uptimeDays = ref(0)
 const uptimeHours = ref(0)
@@ -801,9 +802,38 @@ onUnmounted(() => {
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     flex-shrink: 0;
     margin-left: auto;
+    
+    // Ensure all icon buttons have consistent size
+    .ant-btn-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: 6px;
+    }
+    
+    // Special styling for the write note button
+    .write-article-btn {
+      width: auto !important;
+      padding: 0 16px !important;
+      height: 36px !important;
+      border-radius: 8px !important;
+      margin-left: 4px;
+      font-weight: 500;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      
+      .anticon {
+        font-size: 16px;
+      }
+    }
   }
 }
 
@@ -811,23 +841,25 @@ onUnmounted(() => {
 .github-link, .gitee-link {
   color: var(--text-secondary);
   transition: all 0.2s;
-  padding: 4px;
+  
+  svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
   
   &:hover {
-    transform: translateY(-1px);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
   }
 }
 
-.github-link {
-  &:hover {
-    color: #333;
-  }
+.github-link:hover {
+  color: #333;
 }
 
-.gitee-link {
-  &:hover {
-    color: #c71d23;
-  }
+.gitee-link:hover {
+  color: #c71d23;
 }
 
 .dark-theme {
@@ -1155,6 +1187,11 @@ onUnmounted(() => {
 
 // 移动端抽屉
 .mobile-drawer {
+  // Dark mode support for drawer body
+  :deep(.ant-drawer-body) {
+    background: var(--bg-primary, #fff);
+  }
+  
   .mobile-menu-header {
     padding: 16px;
     border-bottom: 1px solid var(--border-color);
@@ -1197,11 +1234,12 @@ onUnmounted(() => {
       
       &:hover {
         color: var(--text-primary);
+        background: var(--bg-secondary);
       }
       
       &.ant-menu-item-selected {
         color: var(--ant-primary-color);
-        background: rgba(24, 144, 255, 0.1);
+        background: var(--ant-primary-1, rgba(24, 144, 255, 0.1));
       }
     }
   }
@@ -1209,6 +1247,10 @@ onUnmounted(() => {
   // Mobile drawer extra actions section
   .mobile-drawer-actions {
     padding: 16px;
+    
+    .ant-divider {
+      border-color: var(--border-color);
+    }
     
     .mobile-repo-links {
       display: flex;

@@ -680,8 +680,8 @@ async def get_all_articles(
     admin: User = Depends(require_admin),
     db: AsyncSession = Depends(get_db)
 ):
-    """获取全部文章（管理员可查看所有状态）"""
-    query = select(Article).options(selectinload(Article.author))
+    """获取全部文章（管理员可查看所有状态，不包括已删除）"""
+    query = select(Article).options(selectinload(Article.author)).where(Article.deleted_at.is_(None))
 
     if keyword:
         query = query.where(Article.title.contains(keyword))
@@ -689,7 +689,7 @@ async def get_all_articles(
         query = query.where(Article.status == status)
 
     # 统计总数
-    count_query = select(func.count(Article.id))
+    count_query = select(func.count(Article.id)).where(Article.deleted_at.is_(None))
     if keyword:
         count_query = count_query.where(Article.title.contains(keyword))
     if status is not None:
@@ -822,6 +822,35 @@ async def review_article(
         code=200,
         message="审核完成",
         data={"id": article.id, "status": article.status}
+    )
+
+
+@router.delete("/articles/{article_id}", response_model=ResponseModel[dict])
+async def delete_article_admin(
+    article_id: int,
+    admin: User = Depends(require_admin),
+    db: AsyncSession = Depends(get_db)
+):
+    """管理员删除文章（软删除）"""
+    result = await db.execute(
+        select(Article).where(Article.id == article_id, Article.deleted_at.is_(None))
+    )
+    article = result.scalar_one_or_none()
+    
+    if not article:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="文章不存在"
+        )
+    
+    # 软删除
+    article.deleted_at = datetime.utcnow()
+    await db.commit()
+    
+    return ResponseModel(
+        code=200,
+        message="删除成功",
+        data={"id": article.id}
     )
 
 

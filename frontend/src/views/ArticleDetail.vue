@@ -34,10 +34,11 @@
         <!-- 目录导航 -->
         <div class="article-toc" v-if="toc.length > 0">
           <div class="toc-title">目录</div>
-          <div class="toc-list">
+          <div ref="tocListRef" class="toc-list">
             <div
-              v-for="item in toc"
+              v-for="(item, index) in toc"
               :key="item.id"
+              :ref="el => { if (el) tocItemRefs[index] = el }"
               class="toc-item"
               :class="{ active: activeTocId === item.id, [`toc-level-${item.level}`]: true }"
               @click="scrollToHeading(item.id)"
@@ -91,6 +92,16 @@
         <a-divider />
 
         <div class="article-actions">
+          <!-- 编辑按钮 - 仅管理员或作者可见 -->
+          <a-button 
+            v-if="userStore.isLoggedIn && (userStore.isAdmin || article.author?.id === userStore.userInfo?.id)"
+            type="primary" 
+            shape="circle" 
+            size="large" 
+            @click="handleEdit"
+          >
+            <EditOutlined />
+          </a-button>
           <a-button
             :type="article.is_liked ? 'primary' : 'default'"
             shape="circle"
@@ -156,7 +167,7 @@
 import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { EyeOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined } from '@ant-design/icons-vue'
+import { EyeOutlined, LikeOutlined, MessageOutlined, ShareAltOutlined, EditOutlined } from '@ant-design/icons-vue'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark.css'
@@ -187,6 +198,8 @@ const activeReplyId = ref(null)
 const contentRef = ref(null)
 const toc = ref([])
 const activeTocId = ref('')
+const tocListRef = ref(null)
+const tocItemRefs = ref([])
 
 // 笔记加载完成后重新生成目录（确保 DOM 已渲染）
 watch(loading, (newLoading) => {
@@ -290,7 +303,30 @@ const handleScroll = () => {
   })
   if (current && current !== activeTocId.value) {
     activeTocId.value = current
+    // 自动滚动目录到当前活跃的章节
+    scrollToActiveToc()
   }
+}
+
+// 滚动目录列表，使当前活跃的目录项可见
+const scrollToActiveToc = () => {
+  nextTick(() => {
+    if (!tocListRef.value || !tocItemRefs.value.length) return
+    
+    const activeIndex = toc.value.findIndex(item => item.id === activeTocId.value)
+    if (activeIndex === -1) return
+    
+    const activeElement = tocItemRefs.value[activeIndex]
+    if (!activeElement) return
+    
+    const container = tocListRef.value
+    const containerRect = container.getBoundingClientRect()
+    const elementRect = activeElement.getBoundingClientRect()
+    
+    // 计算需要滚动的距离
+    const offset = elementRect.top - containerRect.top - containerRect.height / 3
+    container.scrollTop += offset
+  })
 }
 
 const goToTag = (tagId) => {
@@ -372,6 +408,11 @@ const handleShare = () => {
   }).catch(() => {
     message.error('复制失败')
   })
+}
+
+const handleEdit = () => {
+  // 跳转到编辑器页面
+  router.push(`/editor/${article.value.id}`)
 }
 
 const handleReplyClick = (comment) => {
@@ -820,6 +861,25 @@ onUnmounted(() => {
       }
 
       .toc-list {
+        max-height: 50vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-color, #f0f0f0) transparent;
+        
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+        
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--border-color, #f0f0f0);
+          border-radius: 2px;
+        }
+        
         .toc-item {
           padding: 6px 8px;
           cursor: pointer;
@@ -930,6 +990,9 @@ onUnmounted(() => {
   width: 100%;
 }
 
+:deep(.not-found-empty .ant-empty-description) {
+  color: var(--text-secondary);
+}
 :deep(.not-found-empty .ant-empty-description) {
   color: var(--text-secondary);
 }

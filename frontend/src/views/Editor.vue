@@ -729,7 +729,28 @@ onMounted(() => {
   if (articleId) {
     getArticle(articleId).then(res => {
       if (res.code === 200) {
-        Object.assign(article, res.data)
+        // 赋值基本字段
+        article.title = res.data.title || ''
+        article.content = res.data.content || ''
+        article.summary = res.data.summary || ''
+        article.cover_image = res.data.cover_image || ''
+        
+        // 处理分类ID
+        if (res.data.category) {
+          article.category_id = res.data.category.id
+        } else if (res.data.category_id) {
+          article.category_id = res.data.category_id
+        }
+        
+        // 处理标签IDs
+        if (res.data.tags && Array.isArray(res.data.tags)) {
+          article.tag_ids = res.data.tags.map(tag => tag.id)
+        } else if (res.data.tag_ids && Array.isArray(res.data.tag_ids)) {
+          article.tag_ids = res.data.tag_ids
+        }
+        
+        article.status = res.data.status || 0
+        article.needs_reapproval = res.data.needs_reapproval || false
       }
     })
     return

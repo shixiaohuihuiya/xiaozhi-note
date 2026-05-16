@@ -55,7 +55,7 @@ export const reviewArticle = (id, status, reason) => {
 }
 
 export const deleteArticle = (id) => {
-  return request.delete(`/articles/${id}`)
+  return request.delete(`/admin/articles/${id}`)
 }
 
 // 评论管理
