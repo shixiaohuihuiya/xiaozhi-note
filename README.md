@@ -4,12 +4,18 @@
 
 ## 🌐 在线预览
 
-- **在线演示**: http://www.hhbloapp.top 
+- **在线演示**: http://www.hhblogapp.top 
+- **在线管理面板**: http://www.hhblogapp.top/admin
 - **Gitee 仓库**: https://gitee.com/xhh_code/xiaozhi-note
 - **GitHub 仓库**: https://github.com/shixiaohuihuiya/xiaozhi-note
 
-
 ---
+
+```
+体验账号: xiaozhi_admin
+体验密码: xiaozhiadmin
+```
+
 
 ## ✨ 功能特性
 
