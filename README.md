@@ -96,7 +96,12 @@
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/xiaozhi-note.git
+
+**gitee**
+git clone https://github.com/xhh_code/xiaozhi-note.git
+**github**
+git clone https://github.com/shixiaohuihuiya/xiaozhi-note.git
+
 cd xiaozhi-note
 ```
 
@@ -372,7 +377,11 @@ uvicorn app.main:app --reload --port 6789
 如有问题，欢迎通过以下方式联系：
 
 - 提交 Issue
+<<<<<<< HEAD
 - 发送邮件至: support@example.com
+=======
+- 发送邮件至: 2295465016@qq.com
+>>>>>>> master
 
 ---
 
